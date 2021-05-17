@@ -168,10 +168,5 @@ def archive(dir_cfg, all_jobs):
         return(False, 'No archive directories found with enough free space')
     
     msg = 'Found %s with ~%d GB free' % (archdir, freespace / plot_util.GB)
-
-    bwlimit = dir_cfg.archive.rsyncd_bwlimit
-    throttle_arg = ('--bwlimit=%d' % bwlimit) if bwlimit else ''
-    cmd = ('rsync %s --compress-level=0 --remove-source-files -P %s %s' %
-            (throttle_arg, chosen_plot, rsync_dest(dir_cfg.archive, archdir)))
-
+    cmd = ('coscmd upload %s / --skipmd5' %(chosen_plot))
     return (True, cmd)
