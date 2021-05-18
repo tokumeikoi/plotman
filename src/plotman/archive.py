@@ -150,23 +150,5 @@ def archive(dir_cfg, all_jobs):
     # TODO: sanity check that archive machine is available
     # TODO: filter drives mounted RO
 
-    #
-    # Pick first archive dir with sufficient space
-    #
-    archdir_freebytes = get_archdir_freebytes(dir_cfg.archive)
-    if not archdir_freebytes:
-        return(False, 'No free archive dirs found.')
-    
-    archdir = ''
-    available = [(d, space) for (d, space) in archdir_freebytes.items() if 
-                 space > 1.2 * plot_util.get_k32_plotsize()]
-    if len(available) > 0:
-        index = min(dir_cfg.archive.index, len(available) - 1)
-        (archdir, freespace) = sorted(available)[index]
-
-    if not archdir:
-        return(False, 'No archive directories found with enough free space')
-    
-    msg = 'Found %s with ~%d GB free' % (archdir, freespace / plot_util.GB)
     cmd = ('coscmd upload %s / --skipmd5' %(chosen_plot))
     return (True, cmd)
